@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 
+import { PATHS } from "@/shared/config/paths"
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -35,9 +37,24 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims()
   const user = data?.claims
 
-  if (!user && !request.nextUrl.pathname.startsWith("/login")) {
+  const AUTH_PATHS = [PATHS.AUTH.LOGIN, PATHS.AUTH.SIGNUP]
+  const PROTECTED_PATHS = [PATHS.WISHLISTS.LIST, PATHS.ME.PROFILE]
+
+  const isAuth = AUTH_PATHS.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  )
+  const isProtected = PROTECTED_PATHS.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  )
+
+  if (isAuth && user) {
     const url = request.nextUrl.clone()
-    url.pathname = "/login"
+    url.pathname = PATHS.HOME
+    return NextResponse.redirect(url)
+  }
+  if (isProtected && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = PATHS.AUTH.LOGIN
     return NextResponse.redirect(url)
   }
 
