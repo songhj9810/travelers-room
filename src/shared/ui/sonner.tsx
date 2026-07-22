@@ -68,6 +68,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
           toast: "cn-toast",
         },
       }}
+      offset={{ top: 32, bottom: 32 }}
+      mobileOffset={{ top: 16, bottom: 16 + 64 }} // 탭바 높이만큼 조정
       {...props}
     />
   )

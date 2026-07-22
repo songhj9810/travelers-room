@@ -4,6 +4,9 @@ import localFont from "next/font/local"
 import { QueryProvider } from "@/app/providers/query-provider"
 import { ThemeProvider } from "@/app/providers/theme-provider"
 
+import { Header } from "@/widgets/header"
+import { TabBar } from "@/widgets/tab-bar"
+
 import { cn } from "@/shared/lib/utils"
 import { Toaster } from "@/shared/ui/sonner"
 
@@ -33,7 +36,14 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <QueryProvider>
-            {children}
+            <div className="flex min-h-svh flex-col">
+              <Header />
+              {/* 헤더와 탭바 높이만큼 패딩을 줌 */}
+              <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col pt-12 pb-16 md:pt-20 md:pb-0">
+                {children}
+              </main>
+              <TabBar />
+            </div>
             <Toaster />
           </QueryProvider>
         </ThemeProvider>
