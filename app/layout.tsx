@@ -9,6 +9,7 @@ import { TabBar } from "@/widgets/tab-bar"
 
 import { cn } from "@/shared/lib/utils"
 import { ConfirmModal } from "@/shared/ui/confirm-modal"
+import { LoginModal } from "@/shared/ui/login-modal"
 import { Toaster } from "@/shared/ui/sonner"
 
 import "./globals.css"
@@ -46,6 +47,7 @@ export default function RootLayout({
               <TabBar />
             </div>
             <ConfirmModal />
+            <LoginModal />
             <Toaster />
           </QueryProvider>
         </ThemeProvider>
