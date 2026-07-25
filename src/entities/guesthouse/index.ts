@@ -6,3 +6,7 @@ export {
   type GuesthouseCardProps,
   GuesthouseCardSkeleton,
 } from "./ui/guesthouse-card"
+export {
+  MiniGuesthouseCard,
+  MiniGuesthouseCardSkeleton,
+} from "./ui/mini-guesthouse-card"
