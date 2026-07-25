@@ -10,6 +10,8 @@ import {
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
+import { useOpenSearchModal } from "@/features/search"
+
 import { useProfile } from "@/entities/profile"
 
 import { PATHS } from "@/shared/config/paths"
@@ -18,6 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar"
 
 export function TabBar() {
   const pathname = usePathname()
+  const openSearchModal = useOpenSearchModal()
 
   const { data: profile } = useProfile()
 
@@ -42,9 +45,8 @@ export function TabBar() {
         홈
       </Link>
 
-      {/* TODO: 검색 모달 연결 */}
       <button
-        onClick={() => console.log("검색 모달 열기")}
+        onClick={openSearchModal}
         className={navItemClassName(pathname.startsWith(PATHS.SEARCH))}
       >
         <HugeiconsIcon

@@ -7,16 +7,19 @@ import { cn } from "@/shared/lib/utils"
 import { InputGroup, InputGroupAddon } from "@/shared/ui/input-group"
 import { Skeleton } from "@/shared/ui/skeleton"
 
+import { useOpenSearchModal } from "../model/search-modal.store"
+
 type SearchBarProps = {
   keyword?: string
   size?: "default" | "lg"
 }
 
 export function SearchBar({ keyword, size = "default" }: SearchBarProps) {
+  const openSearchModal = useOpenSearchModal()
+
   return (
-    // TODO: 검색 모달 연결
     <button
-      onClick={() => console.log("검색 모달 열기")}
+      onClick={openSearchModal}
       aria-label="검색 모달 열기"
       className="w-full rounded-4xl"
     >

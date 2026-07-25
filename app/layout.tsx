@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/app/providers/theme-provider"
 import { Header } from "@/widgets/header"
 import { TabBar } from "@/widgets/tab-bar"
 
+import { SearchModal } from "@/features/search"
+
 import { cn } from "@/shared/lib/utils"
 import { ConfirmModal } from "@/shared/ui/confirm-modal"
 import { LoginModal } from "@/shared/ui/login-modal"
@@ -48,6 +50,7 @@ export default function RootLayout({
             </div>
             <ConfirmModal />
             <LoginModal />
+            <SearchModal />
             <Toaster />
           </QueryProvider>
         </ThemeProvider>
