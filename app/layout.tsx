@@ -8,6 +8,7 @@ import { Header } from "@/widgets/header"
 import { TabBar } from "@/widgets/tab-bar"
 
 import { SearchModal } from "@/features/search"
+import { SelectWishlistModal } from "@/features/wishlist"
 
 import { cn } from "@/shared/lib/utils"
 import { ConfirmModal } from "@/shared/ui/confirm-modal"
@@ -51,6 +52,7 @@ export default function RootLayout({
             <ConfirmModal />
             <LoginModal />
             <SearchModal />
+            <SelectWishlistModal />
             <Toaster />
           </QueryProvider>
         </ThemeProvider>
