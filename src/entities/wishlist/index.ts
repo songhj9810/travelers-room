@@ -13,3 +13,4 @@ export {
   useWishlistedGuesthouseIds,
   useWishlistItems,
 } from "./model/wishlist-item.queries"
+export { WishlistCard, WishlistCardSkeleton } from "./ui/wishlist-card"
