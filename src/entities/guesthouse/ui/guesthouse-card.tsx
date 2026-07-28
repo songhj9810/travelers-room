@@ -20,7 +20,7 @@ export type GuesthouseCardProps = Pick<
   | "min_price"
 > & {
   action?: React.ReactNode
-}
+} & React.ComponentPropsWithRef<"div">
 
 export function GuesthouseCard({
   id,
@@ -31,9 +31,10 @@ export function GuesthouseCard({
   review_count,
   min_price,
   action,
+  ...props
 }: GuesthouseCardProps) {
   return (
-    <div className="group relative">
+    <div className="group relative" {...props}>
       <Link href={PATHS.GUESTHOUSES.DETAIL(id)} className="rounded-4xl">
         <div className="flex flex-col">
           {/* 이미지 */}

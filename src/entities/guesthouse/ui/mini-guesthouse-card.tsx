@@ -18,9 +18,10 @@ export function MiniGuesthouseCard({
   review_count,
   min_price,
   action,
+  ...props
 }: GuesthouseCardProps) {
   return (
-    <div className="group relative">
+    <div className="group relative" {...props}>
       <Link href={PATHS.GUESTHOUSES.DETAIL(id)} className="rounded-4xl">
         <div className="flex rounded-4xl bg-card p-2 text-card-foreground shadow-md">
           {/* 이미지 */}

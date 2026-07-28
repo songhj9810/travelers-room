@@ -10,6 +10,7 @@ import {
   MiniGuesthouseCardSkeleton,
 } from "@/entities/guesthouse"
 
+import { PREFETCH_OFFSET } from "@/shared/config/pagination"
 import { cn } from "@/shared/lib/utils"
 import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel"
 import {
@@ -32,37 +33,44 @@ export function MiniGuesthouseCarousel({
   isFetchingNextPage,
   sentinelRef,
 }: MiniGuesthouseCarouselProps) {
+  const sentinelIndex = Math.max(0, items.length - PREFETCH_OFFSET)
+
   return (
     <Carousel opts={{ align: "center" }}>
       <CarouselContent className="overflow-x-clip overflow-y-visible">
-        {items.map((item, index) => (
-          <CarouselItem
-            key={item.id}
-            className={cn(
-              "basis-[80%]",
-              // 첫번째 카드 왼쪽 마진
-              index === 0 && "ml-[10%]",
-              // 로딩 중이 아닐 때 마지막 카드 오른쪽 마진
-              index === items.length - 1 && !isFetchingNextPage && "mr-[10%]"
-            )}
-          >
-            <MiniGuesthouseCard
-              id={item.id}
-              name={item.name}
-              images={item.images}
-              region={item.region}
-              avg_rating={item.avg_rating}
-              review_count={item.review_count}
-              min_price={item.min_price}
-              action={
-                <WishlistButton
-                  guesthouseId={item.id}
-                  wishlisted={wishlistedIds.has(item.id)}
-                />
-              }
-            />
-          </CarouselItem>
-        ))}
+        {items.map((item, index) => {
+          const sentinel = sentinelRef && index === sentinelIndex
+
+          return (
+            <CarouselItem
+              key={item.id}
+              ref={sentinel ? sentinelRef : undefined} // 무한 스크롤 감지 센티넬
+              className={cn(
+                "basis-[80%]",
+                // 첫번째 카드 왼쪽 마진
+                index === 0 && "ml-[10%]",
+                // 로딩 중이 아닐 때 마지막 카드 오른쪽 마진
+                index === items.length - 1 && !isFetchingNextPage && "mr-[10%]"
+              )}
+            >
+              <MiniGuesthouseCard
+                id={item.id}
+                name={item.name}
+                images={item.images}
+                region={item.region}
+                avg_rating={item.avg_rating}
+                review_count={item.review_count}
+                min_price={item.min_price}
+                action={
+                  <WishlistButton
+                    guesthouseId={item.id}
+                    wishlisted={wishlistedIds.has(item.id)}
+                  />
+                }
+              />
+            </CarouselItem>
+          )
+        })}
 
         {/* 다음 페이지 로딩 중 스켈레톤 */}
         {isFetchingNextPage && (
@@ -70,9 +78,6 @@ export function MiniGuesthouseCarousel({
             <MiniGuesthouseCardSkeleton />
           </CarouselItem>
         )}
-
-        {/* 무한 스크롤 감지 센티넬 */}
-        {sentinelRef && <div ref={sentinelRef} className="h-full w-px" />}
       </CarouselContent>
     </Carousel>
   )
