@@ -13,4 +13,8 @@ export {
   useWishlistedGuesthouseIds,
   useWishlistItems,
 } from "./model/wishlist-item.queries"
+export {
+  MiniWishlistCard,
+  MiniWishlistCardSkeleton,
+} from "./ui/mini-wishlist-card"
 export { WishlistCard, WishlistCardSkeleton } from "./ui/wishlist-card"
