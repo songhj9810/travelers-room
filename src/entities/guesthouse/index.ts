@@ -1,6 +1,6 @@
 export { REGION_GROUPS, REGION_LOOKUP } from "./model/regions"
 export type { Guesthouse } from "./model/types"
-export { formatRegion } from "./ui/formatter"
+export { formatBeds, formatRegion } from "./ui/formatter"
 export {
   GuesthouseCard,
   type GuesthouseCardProps,
@@ -10,3 +10,5 @@ export {
   MiniGuesthouseCard,
   MiniGuesthouseCardSkeleton,
 } from "./ui/mini-guesthouse-card"
+export { RoomCard, RoomCardSkeleton } from "./ui/room-card"
+export { RoomDetailModal } from "./ui/room-detail-modal"
