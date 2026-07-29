@@ -3,6 +3,18 @@ import {
   BedDoubleIcon,
   BedIcon,
   BedSingle01Icon,
+  Clock1Icon,
+  Clock2Icon,
+  Clock3Icon,
+  Clock4Icon,
+  Clock5Icon,
+  Clock6Icon,
+  Clock7Icon,
+  Clock8Icon,
+  Clock9Icon,
+  Clock10Icon,
+  Clock11Icon,
+  Clock12Icon,
 } from "@hugeicons/core-free-icons"
 import { IconSvgElement } from "@hugeicons/react"
 
@@ -53,5 +65,36 @@ export const formatBeds = (
       return `${label} ${count}개`
     })
     .join(", ")
+  return { icon, text }
+}
+
+const CLOCK_ICONS: IconSvgElement[] = [
+  Clock1Icon,
+  Clock2Icon,
+  Clock3Icon,
+  Clock4Icon,
+  Clock5Icon,
+  Clock6Icon,
+  Clock7Icon,
+  Clock8Icon,
+  Clock9Icon,
+  Clock10Icon,
+  Clock11Icon,
+  Clock12Icon,
+]
+
+export const formatTime = (
+  value: string | null
+): { icon: IconSvgElement; text: string } => {
+  if (!value) {
+    return { icon: CLOCK_ICONS[8], text: "-" }
+  }
+
+  const hour = Number(value.split(":")[0])
+  const period = hour < 12 ? "오전" : "오후"
+  const hour12 = hour % 12 || 12
+
+  const icon = CLOCK_ICONS[hour12 - 1]
+  const text = `${period} ${hour12}`
   return { icon, text }
 }

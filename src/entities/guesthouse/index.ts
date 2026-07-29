@@ -1,6 +1,6 @@
 export { REGION_GROUPS, REGION_LOOKUP } from "./model/regions"
 export type { Guesthouse } from "./model/types"
-export { formatBeds, formatRegion } from "./ui/formatter"
+export { formatBeds, formatRegion, formatTime } from "./ui/formatter"
 export {
   GuesthouseCard,
   type GuesthouseCardProps,
