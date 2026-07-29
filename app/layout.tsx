@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/app/providers/theme-provider"
 import { Header } from "@/widgets/header"
 import { TabBar } from "@/widgets/tab-bar"
 
+import { EditorModal } from "@/features/review"
 import { SearchModal } from "@/features/search"
 import { SelectWishlistModal } from "@/features/wishlist"
 
@@ -53,6 +54,7 @@ export default function RootLayout({
             <LoginModal />
             <SearchModal />
             <SelectWishlistModal />
+            <EditorModal />
             <Toaster />
           </QueryProvider>
         </ThemeProvider>

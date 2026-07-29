@@ -1,20 +1,27 @@
 import { Delete01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { toast } from "sonner"
 
 import type { Review } from "@/entities/review"
 
 import { useOpenConfirmModal } from "@/shared/store/confirm-modal.store"
 import { Button } from "@/shared/ui/button"
 
+import { useOpenEditorModal } from "../model/editor-modal.store"
+import { useDeleteReview } from "../model/mutations"
+
 type ActionButtonsProps = {
   review: Review
 }
 
 export function ActionButtons({ review }: ActionButtonsProps) {
+  const openEditorModal = useOpenEditorModal()
   const openConfirmModal = useOpenConfirmModal()
 
+  const { mutate: deleteReview, isPending } = useDeleteReview()
+
   const handleEdit = () => {
-    // TODO: 리뷰 수정 기능
+    openEditorModal({ mode: "edit", review })
   }
 
   const handleDelete = () => {
@@ -23,7 +30,17 @@ export function ActionButtons({ review }: ActionButtonsProps) {
       description: "삭제한 리뷰는 복구할 수 없어요",
       destructive: true,
       onConfirm: () => {
-        // TODO: 리뷰 삭제 기능
+        deleteReview(
+          { reviewId: review.id },
+          {
+            onSuccess: () => {
+              toast.success("리뷰를 삭제했어요", { position: "top-center" })
+            },
+            onError: (error) => {
+              toast.error(error.message, { position: "top-center" })
+            },
+          }
+        )
       },
     })
   }
@@ -35,6 +52,7 @@ export function ActionButtons({ review }: ActionButtonsProps) {
         variant="ghost"
         size="icon-sm"
         onClick={handleEdit}
+        disabled={isPending}
         aria-label="리뷰 수정"
       >
         <HugeiconsIcon
@@ -50,6 +68,7 @@ export function ActionButtons({ review }: ActionButtonsProps) {
         variant="destructive"
         size="icon-sm"
         onClick={handleDelete}
+        disabled={isPending}
         aria-label="리뷰 삭제"
         className="bg-transparent dark:bg-transparent"
       >
