@@ -1,6 +1,7 @@
 import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 
+import { KakaoScript } from "@/app/providers/kakao-script"
 import { QueryProvider } from "@/app/providers/query-provider"
 import { ThemeProvider } from "@/app/providers/theme-provider"
 
@@ -40,6 +41,7 @@ export default function RootLayout({
       )}
     >
       <body>
+        <KakaoScript />
         <ThemeProvider>
           <QueryProvider>
             <div className="flex min-h-svh flex-col">

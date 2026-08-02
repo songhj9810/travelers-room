@@ -20,6 +20,8 @@ import type { Tables } from "@/shared/api/supabase/types"
 import { Button, buttonVariants } from "@/shared/ui/button"
 import { Skeleton } from "@/shared/ui/skeleton"
 
+import { ShareButton } from "./share-button"
+
 type HeaderProps = {
   guesthouse: Tables<"guesthouses">
 }
@@ -58,19 +60,7 @@ export function IntroSection({
           wishlisted={wishlistedIds.has(id)}
           type="page"
         />
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          aria-label="공유하기"
-        >
-          <HugeiconsIcon
-            icon={Share01Icon}
-            size={16}
-            strokeWidth={1.75}
-            aria-hidden
-          />
-        </Button>
+        <ShareButton />
         {naver && (
           <a
             href={naver}
