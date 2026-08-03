@@ -22,3 +22,20 @@ export async function fetchProfile({
   if (error) throw error
   return data
 }
+
+// 닉네임 중복 확인
+export async function checkNickname({
+  supabase,
+  nickname,
+}: {
+  supabase: SupabaseClient<Database>
+  nickname: string
+}): Promise<boolean> {
+  const { count, error } = await supabase
+    .from("profiles")
+    .select("id", { count: "exact", head: true })
+    .eq("nickname", nickname)
+
+  if (error) throw error
+  return count === 0
+}

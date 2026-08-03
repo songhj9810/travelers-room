@@ -1,2 +1,2 @@
-export { fetchProfile } from "./api/profile"
-export { useProfile } from "./model/queries"
+export { checkNickname, fetchProfile } from "./api/profile"
+export { useCheckNickname, useProfile } from "./model/queries"
