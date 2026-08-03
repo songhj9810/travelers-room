@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react"
 
 import { WishlistButton } from "@/features/wishlist"
@@ -21,6 +22,8 @@ import {
 type GuesthouseGridProps = {
   items: GuesthouseCardProps[]
   wishlistedIds: Set<string>
+  activeId: string | null
+  scrollMarginTop: number
   isFetchingNextPage?: boolean
   sentinelRef?: React.RefCallback<HTMLDivElement>
 }
@@ -28,20 +31,45 @@ type GuesthouseGridProps = {
 export function GuesthouseGrid({
   items,
   wishlistedIds,
+  activeId,
+  scrollMarginTop,
   isFetchingNextPage,
   sentinelRef,
 }: GuesthouseGridProps) {
+  const activeRef = useRef<HTMLDivElement | null>(null)
+
   const sentinelIndex = Math.max(0, items.length - PREFETCH_OFFSET)
+
+  // 지도에서 마커 클릭 시 해당 카드로 스크롤
+  useEffect(() => {
+    if (!activeId || !activeRef.current) return
+
+    activeRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }, [activeId])
 
   return (
     <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
       {items.map((item, index) => {
+        const active = item.id === activeId
         const sentinel = sentinelRef && index === sentinelIndex
 
         return (
           <GuesthouseCard
             key={item.id}
-            ref={sentinel ? sentinelRef : undefined} // 무한 스크롤 감지 센티넬
+            ref={(node) => {
+              // 액티브 카드 ref
+              if (active) {
+                activeRef.current = node
+              }
+              // 무한 스크롤 감지 센티넬 ref
+              if (sentinel) {
+                sentinelRef(node)
+              }
+            }}
+            style={active ? { scrollMarginTop } : undefined} // 스크롤 마진 설정
             id={item.id}
             name={item.name}
             images={item.images}

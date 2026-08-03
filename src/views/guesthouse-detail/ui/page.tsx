@@ -18,6 +18,7 @@ import { getQueryClient } from "@/shared/api/get-query-client"
 import { queryKeys } from "@/shared/api/query-keys"
 import { createClient } from "@/shared/api/supabase/server"
 import { ImageCarousel } from "@/shared/ui/image-carousel"
+import { NaverMap } from "@/shared/ui/naver-map"
 import { Separator } from "@/shared/ui/separator"
 
 import { IntroSection } from "./intro-section"
@@ -206,7 +207,17 @@ export default async function Page({
           )}
         </div>
         <div className="flex aspect-video items-center justify-center">
-          지도
+          <NaverMap
+            markers={[
+              {
+                id: guesthouse.id,
+                name: guesthouse.name,
+                lat: guesthouse.latitude,
+                lng: guesthouse.longitude,
+              },
+            ]}
+            activeId={guesthouse.id}
+          />
         </div>
       </section>
 

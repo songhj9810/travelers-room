@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react"
 
 import { WishlistButton } from "@/features/wishlist"
@@ -12,7 +13,12 @@ import {
 
 import { PREFETCH_OFFSET } from "@/shared/config/pagination"
 import { cn } from "@/shared/lib/utils"
-import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel"
+import {
+  Carousel,
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@/shared/ui/carousel"
 import {
   Empty,
   EmptyDescription,
@@ -23,6 +29,8 @@ import {
 type MiniGuesthouseCarouselProps = {
   items: GuesthouseCardProps[]
   wishlistedIds: Set<string>
+  activeId: string | null
+  onActiveIdChange: (id: string) => void
   isFetchingNextPage?: boolean
   sentinelRef?: React.RefCallback<HTMLDivElement>
 }
@@ -30,13 +38,45 @@ type MiniGuesthouseCarouselProps = {
 export function MiniGuesthouseCarousel({
   items,
   wishlistedIds,
+  activeId,
+  onActiveIdChange,
   isFetchingNextPage,
   sentinelRef,
 }: MiniGuesthouseCarouselProps) {
+  const [api, setApi] = useState<CarouselApi>()
+
   const sentinelIndex = Math.max(0, items.length - PREFETCH_OFFSET)
 
+  // 외부 -> 캐러셀
+  useEffect(() => {
+    if (!api || !activeId) return
+
+    const index = items.findIndex((item) => item.id === activeId)
+    if (index !== -1 && index !== api.selectedScrollSnap()) {
+      api.scrollTo(index)
+    }
+  }, [api, activeId, items])
+
+  // 캐러셀 -> 외부
+  useEffect(() => {
+    if (!api) return
+
+    const handleSelect = () => {
+      const index = api.selectedScrollSnap()
+      const selectedItem = items[index]
+      if (selectedItem && selectedItem.id !== activeId) {
+        onActiveIdChange?.(selectedItem.id)
+      }
+    }
+
+    api.on("select", handleSelect)
+    return () => {
+      api.off("select", handleSelect)
+    }
+  }, [api, items, activeId, onActiveIdChange])
+
   return (
-    <Carousel opts={{ align: "center" }}>
+    <Carousel opts={{ align: "center" }} setApi={setApi}>
       <CarouselContent className="overflow-x-clip overflow-y-visible">
         {items.map((item, index) => {
           const sentinel = sentinelRef && index === sentinelIndex

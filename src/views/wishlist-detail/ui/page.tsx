@@ -1,9 +1,10 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useInView } from "react-intersection-observer"
 import { Archive04Icon } from "@hugeicons/core-free-icons"
+import { useMediaQuery } from "usehooks-ts"
 
 import {
   GuesthouseGrid,
@@ -24,6 +25,7 @@ import {
 } from "@/entities/wishlist"
 
 import { cn } from "@/shared/lib/utils"
+import { type Marker, NaverMap } from "@/shared/ui/naver-map"
 import { ViewSwitcher } from "@/shared/ui/view-switcher"
 
 export default function Page() {
@@ -31,6 +33,9 @@ export default function Page() {
   const { setHeader, resetHeader } = useHeaderActions()
 
   const [view, setView] = useState<"list" | "map">("list") // 모바일
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const headingRef = useRef<HTMLDivElement | null>(null)
+  const [scrollMarginTop, setScrollMarginTop] = useState(0) // 데스크탑
 
   const { data: wishlist } = useWishlist({ wishlistId })
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -38,7 +43,43 @@ export default function Page() {
   const { data: wishlistedIds = new Set<string>() } =
     useWishlistedGuesthouseIds()
 
-  const items = data?.pages.flat().map((item) => item.guesthouse) ?? []
+  const items = useMemo(
+    () =>
+      data?.pages.flatMap((page) => page.map((item) => item.guesthouse)) ?? [],
+    [data?.pages]
+  )
+  const markers: Marker[] = useMemo(
+    () =>
+      items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        lat: item.latitude,
+        lng: item.longitude,
+      })),
+    [items]
+  )
+
+  const selectedId = items.some((item) => item.id === activeId)
+    ? activeId
+    : null
+
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
+  useEffect(() => {
+    const el = headingRef.current
+    if (!el) return
+
+    const updateMargin = () => {
+      const stickyTop = isDesktop ? 80 : 48
+      setScrollMarginTop(stickyTop + el.offsetHeight)
+    }
+
+    updateMargin() // 초기값 설정
+
+    const resizeObserver = new ResizeObserver(updateMargin)
+    resizeObserver.observe(el)
+    return () => resizeObserver.disconnect()
+  }, [isDesktop])
 
   const { ref: sentinelRef } = useInView({
     threshold: 0,
@@ -61,7 +102,10 @@ export default function Page() {
           view === "map" && "hidden md:flex"
         )}
       >
-        <div className="sticky top-12 z-30 hidden bg-background py-4 md:top-20 md:block">
+        <div
+          ref={headingRef}
+          className="sticky top-12 z-30 hidden bg-background py-4 md:top-20 md:block"
+        >
           <h1 className="text-2xl font-bold md:text-[1.75rem]/[1.2]">
             {wishlist?.name}
           </h1>
@@ -73,6 +117,8 @@ export default function Page() {
           <GuesthouseGrid
             items={items}
             wishlistedIds={wishlistedIds}
+            activeId={selectedId}
+            scrollMarginTop={scrollMarginTop}
             isFetchingNextPage={isFetchingNextPage}
             sentinelRef={sentinelRef}
           />
@@ -92,11 +138,31 @@ export default function Page() {
             "pointer-events-none invisible opacity-0 md:pointer-events-auto md:visible md:opacity-100"
         )}
       >
-        지도
+        <NaverMap
+          markers={markers}
+          activeId={selectedId}
+          onMarkerClick={setActiveId}
+          onMapClick={() => setActiveId(null)}
+        />
       </div>
 
       <div className="fixed inset-x-0 bottom-20 z-20 flex flex-col items-center gap-4 md:hidden">
-        <ViewSwitcher value={view} onValueChange={(value) => setView(value)} />
+        <ViewSwitcher
+          value={view}
+          onValueChange={(value) => {
+            setView(value)
+            if (value === "list" && selectedId) {
+              const currentActiveId = selectedId
+              setActiveId(null)
+              requestAnimationFrame(() => {
+                setActiveId(currentActiveId)
+              })
+            }
+            if (value === "map" && !selectedId) {
+              setActiveId(items[0]?.id ?? null)
+            }
+          }}
+        />
 
         {view === "map" && (
           <div className="w-full">
@@ -106,6 +172,8 @@ export default function Page() {
               <MiniGuesthouseCarousel
                 items={items}
                 wishlistedIds={wishlistedIds}
+                activeId={selectedId}
+                onActiveIdChange={setActiveId}
                 isFetchingNextPage={isFetchingNextPage}
                 sentinelRef={sentinelRef}
               />
