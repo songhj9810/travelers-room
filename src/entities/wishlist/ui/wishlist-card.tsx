@@ -57,7 +57,7 @@ export function WishlistCard({
                 src={thumbnails[0]}
                 alt=""
                 fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                sizes="(max-width: 48rem) 50vw, (max-width: 64rem) 33vw, 25vw"
                 className="object-cover"
               />
             ) : (
@@ -72,7 +72,7 @@ export function WishlistCard({
                           src={thumbnail}
                           alt=""
                           fill
-                          sizes="(max-width: 768px) 25vw, (max-width: 1024px) 16vw, 12vw"
+                          sizes="(max-width: 48rem) 25vw, (max-width: 64rem) 16vw, 12vw"
                           className="object-cover"
                         />
                       )}

@@ -125,7 +125,7 @@ export function AvatarModal({ open, onOpenChange, avatar }: AvatarModalProps) {
             }
             alt="프로필 이미지"
             fill
-            sizes="(max-width: 768px) 120px, 160px"
+            sizes="(max-width: 48rem) 7.5rem, 10rem"
             className="object-cover"
           />
         </div>

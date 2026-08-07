@@ -43,7 +43,7 @@ export function GuesthouseCard({
               src={images[0] || "/placeholder.jpg"}
               alt={`${name}의 대표 이미지`}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, 25vw"
+              sizes="(max-width: 40rem) 100vw, (max-width: 48rem) 50vw, (max-width: 64rem) 50vw, 25vw"
               className="object-cover"
             />
           </div>

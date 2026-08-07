@@ -80,7 +80,7 @@ export function ReviewItem({
                     src={image}
                     alt={`리뷰 이미지 ${index + 1}`}
                     fill
-                    sizes="192px"
+                    sizes="12.5rem"
                     className="object-cover"
                   />
                 </div>

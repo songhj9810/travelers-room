@@ -53,7 +53,7 @@ export function ImageCarousel({
                       fill
                       sizes={
                         variant === "modal"
-                          ? "(max-width: 768px) 100vw, (max-width: 1024px) 576px, (max-width: 1280px) 672px, 768px"
+                          ? "(max-width: 48rem) 100vw, (max-width: 64rem) 36rem, (max-width: 80rem) 42rem, 48rem"
                           : "100vw"
                       }
                       className="object-contain"

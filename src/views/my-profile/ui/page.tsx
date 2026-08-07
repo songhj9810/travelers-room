@@ -79,7 +79,7 @@ export default function Page() {
             src={profile?.avatar || "/avatar.svg"}
             alt="프로필"
             fill
-            sizes="(max-width: 768px) 120px, 160px"
+            sizes="(max-width: 48rem) 7.5rem, 10rem"
             className="object-cover"
           />
         </div>

@@ -44,7 +44,7 @@ export function MiniWishlistCard({
               src={thumbnails[0]}
               alt=""
               fill
-              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 288px, (max-width: 1280px) 336px, 384px"
+              sizes="(max-width: 48rem) 50vw, 18rem"
               className="object-cover"
             />
           ) : (
@@ -59,7 +59,7 @@ export function MiniWishlistCard({
                         src={thumbnail}
                         alt=""
                         fill
-                        sizes="(max-width: 768px) 25vw, (max-width: 1024px) 144px, (max-width: 1280px) 168px, 192px"
+                        sizes="(max-width: 48rem) 25vw, 9rem"
                         className="object-cover"
                       />
                     )}

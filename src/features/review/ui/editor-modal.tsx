@@ -328,7 +328,7 @@ export function EditorModal() {
                                 }
                                 alt={`사진 ${index + 1} 미리보기`}
                                 fill
-                                sizes="(max-width: 768px) 120px, 160px"
+                                sizes="(max-width: 48rem) 8rem, 10.5rem"
                                 className="object-cover"
                               />
                               <Button
