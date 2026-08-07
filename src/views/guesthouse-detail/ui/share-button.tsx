@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { CopyLinkIcon, Share01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { Button } from "@/shared/ui/button"
 import {
@@ -14,16 +13,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui/dialog"
+import { topToast } from "@/shared/ui/toast"
 
 export function ShareButton() {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
-      toast.success("링크를 복사했어요", { position: "top-center" })
+      topToast.add({
+        type: "success",
+        description: "링크를 복사했어요",
+      })
     } catch {
-      toast.error("잠시 후 다시 시도해주세요", { position: "top-center" })
+      topToast.add({
+        type: "warning",
+        description: "잠시 후 다시 시도해주세요",
+        priority: "high",
+      })
     }
   }
+
   const handleKakaoShare = () => {
     window.Kakao.Share.sendScrap({
       requestUrl: window.location.href,

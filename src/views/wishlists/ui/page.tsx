@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useInView } from "react-intersection-observer"
-import { toast } from "sonner"
 
 import { RenameFormModal, useDeleteWishlist } from "@/features/wishlist"
 
@@ -15,6 +14,7 @@ import {
 
 import { cn } from "@/shared/lib/utils"
 import { useOpenConfirmModal } from "@/shared/store/confirm-modal.store"
+import { topToast } from "@/shared/ui/toast"
 
 export default function Page() {
   const openConfirmModal = useOpenConfirmModal()
@@ -42,12 +42,17 @@ export default function Page() {
           { wishlistId },
           {
             onSuccess: () => {
-              toast.success(`위시리스트를 삭제했어요`, {
-                position: "top-center",
+              topToast.add({
+                type: "success",
+                description: "위시리스트를 삭제했어요",
               })
             },
             onError: (error) => {
-              toast.error(error.message, { position: "top-center" })
+              topToast.add({
+                type: "error",
+                description: error.message,
+                priority: "high",
+              })
             },
           }
         )

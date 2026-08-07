@@ -1,11 +1,11 @@
 import { Delete01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import type { Review } from "@/entities/review"
 
 import { useOpenConfirmModal } from "@/shared/store/confirm-modal.store"
 import { Button } from "@/shared/ui/button"
+import { topToast } from "@/shared/ui/toast"
 
 import { useOpenEditorModal } from "../model/editor-modal.store"
 import { useDeleteReview } from "../model/mutations"
@@ -34,10 +34,17 @@ export function ActionButtons({ review }: ActionButtonsProps) {
           { reviewId: review.id },
           {
             onSuccess: () => {
-              toast.success("리뷰를 삭제했어요", { position: "top-center" })
+              topToast.add({
+                type: "success",
+                description: "리뷰를 삭제했어요",
+              })
             },
             onError: (error) => {
-              toast.error(error.message, { position: "top-center" })
+              topToast.add({
+                type: "error",
+                description: error.message,
+                priority: "high",
+              })
             },
           }
         )

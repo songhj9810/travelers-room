@@ -11,7 +11,6 @@ import {
   StarIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { cn } from "@/shared/lib/utils"
 import { useOpenConfirmModal } from "@/shared/store/confirm-modal.store"
@@ -20,6 +19,7 @@ import { Carousel, CarouselContent, CarouselItem } from "@/shared/ui/carousel"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field"
 import { ResponsiveModal } from "@/shared/ui/responsive-modal"
 import { Textarea } from "@/shared/ui/textarea"
+import { topToast } from "@/shared/ui/toast"
 
 import { useEditorModal } from "../model/editor-modal.store"
 import { useCreateReview, useUpdateReview } from "../model/mutations"
@@ -98,10 +98,17 @@ export function EditorModal() {
         {
           onSuccess: () => {
             close()
-            toast.success("리뷰를 작성했어요", { position: "top-center" })
+            topToast.add({
+              type: "success",
+              description: "리뷰를 작성했어요",
+            })
           },
           onError: (error) => {
-            toast.error(error.message, { position: "top-center" })
+            topToast.add({
+              type: "error",
+              description: error.message,
+              priority: "high",
+            })
           },
         }
       )
@@ -126,10 +133,17 @@ export function EditorModal() {
         {
           onSuccess: () => {
             close()
-            toast.success("리뷰를 수정했어요", { position: "top-center" })
+            topToast.add({
+              type: "success",
+              description: "리뷰를 수정했어요",
+            })
           },
           onError: (error) => {
-            toast.error(error.message, { position: "top-center" })
+            topToast.add({
+              type: "error",
+              description: error.message,
+              priority: "high",
+            })
           },
         }
       )

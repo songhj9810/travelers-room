@@ -4,7 +4,6 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 import { useDebounceValue } from "usehooks-ts"
 
 import { useCheckNickname } from "@/entities/profile"
@@ -13,6 +12,7 @@ import { cn } from "@/shared/lib/utils"
 import { Button } from "@/shared/ui/button"
 import { Field, FieldError, FieldGroup } from "@/shared/ui/field"
 import { Input } from "@/shared/ui/input"
+import { topToast } from "@/shared/ui/toast"
 
 import { useUpdateProfile } from "../model/mutations"
 import { type NicknameFormValues, nicknameSchema } from "../model/schema"
@@ -44,10 +44,17 @@ export function NicknameForm({ currentNickname, onClose }: NicknameFormProps) {
       {
         onSuccess: () => {
           onClose()
-          toast.success("닉네임을 변경했어요", { position: "top-center" })
+          topToast.add({
+            type: "success",
+            description: "닉네임을 변경했어요",
+          })
         },
         onError: (error) => {
-          toast.error(error.message, { position: "top-center" })
+          topToast.add({
+            type: "error",
+            description: error.message,
+            priority: "high",
+          })
         },
       }
     )

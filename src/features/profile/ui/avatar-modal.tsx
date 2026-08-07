@@ -8,7 +8,6 @@ import {
   Loading03Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { useUpdateProfile } from "@/features/profile"
 
@@ -18,6 +17,7 @@ import {
   ResponsiveModal,
   type ResponsiveModalProps,
 } from "@/shared/ui/responsive-modal"
+import { topToast } from "@/shared/ui/toast"
 
 type AvatarModalProps = Pick<ResponsiveModalProps, "open" | "onOpenChange"> & {
   avatar: Tables<"profiles">["avatar"]
@@ -58,12 +58,17 @@ export function AvatarModal({ open, onOpenChange, avatar }: AvatarModalProps) {
       {
         onSuccess: () => {
           onOpenChange(false)
-          toast.success("프로필 이미지를 변경했어요", {
-            position: "top-center",
+          topToast.add({
+            type: "success",
+            description: "프로필 이미지를 변경했어요",
           })
         },
         onError: (error) => {
-          toast.error(error.message, { position: "top-center" })
+          topToast.add({
+            type: "error",
+            description: error.message,
+            priority: "high",
+          })
         },
       }
     )

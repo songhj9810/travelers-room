@@ -8,7 +8,6 @@ import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Provider } from "@supabase/supabase-js"
-import { toast } from "sonner"
 
 import { PATHS } from "@/shared/config/paths"
 import { getSupabaseErrorMessage } from "@/shared/lib/error"
@@ -29,6 +28,7 @@ import {
   FieldSeparator,
 } from "@/shared/ui/field"
 import { Input } from "@/shared/ui/input"
+import { topToast } from "@/shared/ui/toast"
 
 import {
   useLoginWithOAuth,
@@ -67,8 +67,10 @@ export function LoginForm() {
           router.replace(PATHS.HOME)
         },
         onError: (error) => {
-          toast.error(getSupabaseErrorMessage({ error }), {
-            position: "top-center",
+          topToast.add({
+            type: "error",
+            description: getSupabaseErrorMessage({ error }),
+            priority: "high",
           })
         },
       }
@@ -80,8 +82,10 @@ export function LoginForm() {
       { provider },
       {
         onError: (error) => {
-          toast.error(getSupabaseErrorMessage({ error }), {
-            position: "top-center",
+          topToast.add({
+            type: "error",
+            description: getSupabaseErrorMessage({ error }),
+            priority: "high",
           })
         },
       }

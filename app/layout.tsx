@@ -16,7 +16,7 @@ import { SelectWishlistModal } from "@/features/wishlist"
 import { cn } from "@/shared/lib/utils"
 import { ConfirmModal } from "@/shared/ui/confirm-modal"
 import { LoginModal } from "@/shared/ui/login-modal"
-import { Toaster } from "@/shared/ui/sonner"
+import { Toaster } from "@/shared/ui/toast"
 
 import "./globals.css"
 

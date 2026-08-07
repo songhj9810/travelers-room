@@ -6,7 +6,6 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { PATHS } from "@/shared/config/paths"
 import { getSupabaseErrorMessage } from "@/shared/lib/error"
@@ -26,6 +25,7 @@ import {
   FieldLabel,
 } from "@/shared/ui/field"
 import { Input } from "@/shared/ui/input"
+import { topToast } from "@/shared/ui/toast"
 
 import { useSignup } from "../model/auth.mutations"
 import { type SignupFormValues, signupSchema } from "../model/auth.schema"
@@ -59,8 +59,10 @@ export function SignupForm() {
         onError: (error) => {
           form.resetField("password")
           form.resetField("confirmPassword")
-          toast.error(getSupabaseErrorMessage({ error }), {
-            position: "top-center",
+          topToast.add({
+            type: "error",
+            description: getSupabaseErrorMessage({ error }),
+            priority: "high",
           })
         },
       }

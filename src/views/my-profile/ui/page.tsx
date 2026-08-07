@@ -11,7 +11,6 @@ import {
   Settings01Icon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { useLogout } from "@/features/auth"
 import { AvatarModal } from "@/features/profile"
@@ -24,6 +23,7 @@ import { getSupabaseErrorMessage } from "@/shared/lib/error"
 import { cn } from "@/shared/lib/utils"
 import { Button } from "@/shared/ui/button"
 import { Separator } from "@/shared/ui/separator"
+import { topToast } from "@/shared/ui/toast"
 
 import { NicknameSection } from "./nickname-section"
 import { ProviderIcon } from "./provider-icon"
@@ -45,8 +45,10 @@ export default function Page() {
         router.replace(PATHS.HOME)
       },
       onError: (error) => {
-        toast.error(getSupabaseErrorMessage({ error }), {
-          position: "top-center",
+        topToast.add({
+          type: "error",
+          description: getSupabaseErrorMessage({ error }),
+          priority: "high",
         })
       },
     })

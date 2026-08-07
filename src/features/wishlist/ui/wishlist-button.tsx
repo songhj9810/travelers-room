@@ -2,7 +2,6 @@
 
 import { FavouriteIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { useProfile } from "@/entities/profile"
 import { useBaseWishlist } from "@/entities/wishlist"
@@ -10,6 +9,7 @@ import { useBaseWishlist } from "@/entities/wishlist"
 import { cn } from "@/shared/lib/utils"
 import { useOpenLoginModal } from "@/shared/store/login-modal.store"
 import { Button } from "@/shared/ui/button"
+import { bottomToast } from "@/shared/ui/toast"
 
 import { useOpenSelectWishlistModal } from "../model/select-wishlist-modal.store"
 import {
@@ -47,7 +47,11 @@ export function WishlistButton({
     }
 
     if (!baseWishlist) {
-      toast.error("잠시 후 다시 시도해주세요", { position: "bottom-center" })
+      bottomToast.add({
+        type: "warning",
+        description: "잠시 후 다시 시도해주세요",
+        priority: "high",
+      })
       return
     }
 
@@ -56,7 +60,11 @@ export function WishlistButton({
         { guesthouseId },
         {
           onError: (error) => {
-            toast.error(error.message, { position: "bottom-center" })
+            bottomToast.add({
+              type: "error",
+              description: error.message,
+              priority: "high",
+            })
           },
         }
       )
@@ -68,17 +76,24 @@ export function WishlistButton({
         },
         {
           onSuccess: (data) => {
-            toast.success("기본 위시리스트에 담았어요", {
-              action: {
-                label: "변경",
-                onClick: () =>
-                  openSelectWishlistModal({ wishlistItemId: data.id }),
+            const toast = bottomToast.add({
+              type: "wishlist",
+              title: "기본 위시리스트에 담았어요",
+              actionProps: {
+                children: "변경",
+                onClick() {
+                  bottomToast.close(toast)
+                  openSelectWishlistModal({ wishlistItemId: data.id })
+                },
               },
-              position: "bottom-center",
             })
           },
           onError: (error) => {
-            toast.error(error.message, { position: "bottom-center" })
+            bottomToast.add({
+              type: "error",
+              description: error.message,
+              priority: "high",
+            })
           },
         }
       )

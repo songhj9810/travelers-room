@@ -5,7 +5,6 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import type { Wishlist } from "@/entities/wishlist"
 
@@ -16,6 +15,7 @@ import {
   ResponsiveModal,
   type ResponsiveModalProps,
 } from "@/shared/ui/responsive-modal"
+import { topToast } from "@/shared/ui/toast"
 
 import { type WishlistFormValues, wishlistSchema } from "../model/schema"
 import { useUpdateWishlist } from "../model/wishlist.mutations"
@@ -59,7 +59,11 @@ export function RenameFormModal({
           onOpenChange(false)
         },
         onError: (error) => {
-          toast.error(error.message, { position: "top-center" })
+          topToast.add({
+            type: "error",
+            description: error.message,
+            priority: "high",
+          })
         },
       }
     )

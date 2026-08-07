@@ -5,7 +5,6 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import { PATHS } from "@/shared/config/paths"
 import { getSupabaseErrorMessage } from "@/shared/lib/error"
@@ -19,6 +18,7 @@ import {
 } from "@/shared/ui/card"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field"
 import { Input } from "@/shared/ui/input"
+import { topToast } from "@/shared/ui/toast"
 
 import { useResetPassword } from "../model/password.mutations"
 import {
@@ -45,13 +45,18 @@ export function ResetPasswordForm() {
       { newPassword: values.newPassword },
       {
         onSuccess: () => {
-          toast.success("비밀번호를 재설정했어요", { position: "top-center" })
+          topToast.add({
+            type: "success",
+            description: "비밀번호를 재설정했어요",
+          })
           router.replace(PATHS.HOME)
         },
         onError: (error) => {
           form.reset()
-          toast.error(getSupabaseErrorMessage({ error }), {
-            position: "top-center",
+          topToast.add({
+            type: "error",
+            description: getSupabaseErrorMessage({ error }),
+            priority: "high",
           })
         },
       }

@@ -5,7 +5,6 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { toast } from "sonner"
 
 import {
   MiniWishlistCard,
@@ -18,6 +17,7 @@ import { Button } from "@/shared/ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field"
 import { Input } from "@/shared/ui/input"
 import { ResponsiveModal } from "@/shared/ui/responsive-modal"
+import { bottomToast } from "@/shared/ui/toast"
 
 import { type WishlistFormValues, wishlistSchema } from "../model/schema"
 import { useSelectWishlistModal } from "../model/select-wishlist-modal.store"
@@ -58,7 +58,11 @@ export function SelectWishlistModal() {
     wishlistName: string
   }) => {
     if (!wishlistItemId) {
-      toast.error("잠시 후 다시 시도해주세요", { position: "bottom-center" })
+      bottomToast.add({
+        type: "warning",
+        description: "잠시 후 다시 시도해주세요",
+        priority: "high",
+      })
       return
     }
 
@@ -70,12 +74,17 @@ export function SelectWishlistModal() {
       {
         onSuccess: () => {
           close()
-          toast.success(`${wishlistName}에 담았어요`, {
-            position: "bottom-center",
+          bottomToast.add({
+            type: "wishlist",
+            title: `${wishlistName}에 담았어요`,
           })
         },
         onError: (error) => {
-          toast.error(error.message, { position: "bottom-center" })
+          bottomToast.add({
+            type: "error",
+            description: error.message,
+            priority: "high",
+          })
         },
       }
     )
@@ -83,7 +92,11 @@ export function SelectWishlistModal() {
 
   const handleCreate: SubmitHandler<WishlistFormValues> = async (values) => {
     if (!wishlistItemId) {
-      toast.error("잠시 후 다시 시도해주세요", { position: "bottom-center" })
+      bottomToast.add({
+        type: "warning",
+        description: "잠시 후 다시 시도해주세요",
+        priority: "high",
+      })
       return
     }
 
@@ -97,17 +110,26 @@ export function SelectWishlistModal() {
         {
           onSuccess: () => {
             close()
-            toast.success(`${newWishlist.name}에 담았어요`, {
-              position: "bottom-center",
+            bottomToast.add({
+              type: "wishlist",
+              title: `${newWishlist.name}에 담았어요`,
             })
           },
           onError: (error) => {
-            toast.error(error.message, { position: "bottom-center" })
+            bottomToast.add({
+              type: "error",
+              description: error.message,
+              priority: "high",
+            })
           },
         }
       )
     } catch (error) {
-      toast.error((error as Error).message, { position: "bottom-center" })
+      bottomToast.add({
+        type: "error",
+        description: (error as Error).message,
+        priority: "high",
+      })
     }
   }
 

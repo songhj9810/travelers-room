@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { toast } from "sonner"
 
 import { useLogout } from "@/features/auth"
 
@@ -22,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu"
+import { topToast } from "@/shared/ui/toast"
 
 export function DesktopNav() {
   const router = useRouter()
@@ -38,8 +38,10 @@ export function DesktopNav() {
         router.replace(PATHS.HOME)
       },
       onError: (error) => {
-        toast.error(getSupabaseErrorMessage({ error }), {
-          position: "top-center",
+        topToast.add({
+          type: "error",
+          description: getSupabaseErrorMessage({ error }),
+          priority: "high",
         })
       },
     })
