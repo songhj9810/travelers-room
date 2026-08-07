@@ -61,19 +61,21 @@ export function WishlistCard({
                 className="object-cover"
               />
             ) : (
-              <div className="grid h-full grid-cols-2 grid-rows-2 place-items-center gap-1">
+              <div className="grid h-full grid-cols-2 grid-rows-2 gap-1">
                 {Array.from({ length: 4 }).map((_, index) => {
                   const thumbnail = thumbnails[index]
 
                   return (
                     <div key={index} className="relative bg-muted/50">
-                      <Image
-                        src={thumbnail}
-                        alt=""
-                        fill
-                        sizes="(max-width: 768px) 25vw, (max-width: 1024px) 16vw, 12vw"
-                        className="object-cover"
-                      />
+                      {thumbnail && (
+                        <Image
+                          src={thumbnail}
+                          alt=""
+                          fill
+                          sizes="(max-width: 768px) 25vw, (max-width: 1024px) 16vw, 12vw"
+                          className="object-cover"
+                        />
+                      )}
                     </div>
                   )
                 })}
