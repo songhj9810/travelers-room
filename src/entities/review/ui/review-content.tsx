@@ -24,7 +24,7 @@ export function ReviewContent({ content }: ReviewContentProps) {
   }, [content])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <p
         ref={textRef}
         className={cn(
