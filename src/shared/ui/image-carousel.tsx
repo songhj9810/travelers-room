@@ -24,13 +24,9 @@ export function ImageCarousel({
 }: ImageCarouselProps) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
 
   useEffect(() => {
     if (!api) return
-
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
 
     const handleSelect = () => {
       setCurrent(api.selectedScrollSnap())
@@ -70,7 +66,7 @@ export function ImageCarousel({
 
           {/* Dot Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-1.5">
-            {Array.from({ length: count }).map((_, index) => (
+            {Array.from({ length: images.length }).map((_, index) => (
               <button
                 key={index}
                 type="button"
