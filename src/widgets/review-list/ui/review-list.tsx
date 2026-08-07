@@ -8,7 +8,6 @@ import { useProfile } from "@/entities/profile"
 import { type Review, ReviewItem, ReviewItemSkeleton } from "@/entities/review"
 
 import { PAGE_GROUP_SIZE, PAGE_SIZE } from "@/shared/config/pagination"
-import { cn } from "@/shared/lib/utils"
 import {
   Empty,
   EmptyDescription,
@@ -64,18 +63,19 @@ export function ReviewList({
       {totalPages > 1 && (
         <Pagination>
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault()
-                  onPageChange?.(Math.max(groupStartPage - PAGE_GROUP_SIZE, 0))
-                }}
-                className={cn(
-                  groupIndex === 0 && "pointer-events-none opacity-50"
-                )}
-              />
-            </PaginationItem>
+            {groupIndex > 0 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onPageChange?.(
+                      Math.max(groupStartPage - PAGE_GROUP_SIZE, 0)
+                    )
+                  }}
+                />
+              </PaginationItem>
+            )}
 
             {Array.from(
               { length: groupEndPage - groupStartPage },
@@ -95,18 +95,17 @@ export function ReviewList({
               </PaginationItem>
             ))}
 
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault()
-                  onPageChange?.(Math.min(groupEndPage, totalPages - 1))
-                }}
-                className={cn(
-                  groupEndPage >= totalPages && "pointer-events-none opacity-50"
-                )}
-              />
-            </PaginationItem>
+            {groupEndPage < totalPages && (
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onPageChange?.(Math.min(groupEndPage, totalPages - 1))
+                  }}
+                />
+              </PaginationItem>
+            )}
           </PaginationContent>
         </Pagination>
       )}
