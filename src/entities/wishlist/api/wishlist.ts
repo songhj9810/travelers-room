@@ -10,6 +10,11 @@ export async function fetchWishlists({
 }: {
   supabase: SupabaseClient<Database>
 }): Promise<Wishlist[]> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return []
+
   const { data, error } = await supabase
     .from("vw_wishlists")
     .select("*")

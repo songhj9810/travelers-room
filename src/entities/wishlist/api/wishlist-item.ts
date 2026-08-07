@@ -35,6 +35,11 @@ export async function fetchWishlistItems({
   wishlistId: string
   page?: number
 }): Promise<WishlistItem[]> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return []
+
   const from = page * PAGE_SIZE
   const to = from + PAGE_SIZE - 1
 
