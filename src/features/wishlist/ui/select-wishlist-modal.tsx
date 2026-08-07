@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema"
 import { Loading03Icon } from "@hugeicons/core-free-icons"
@@ -140,6 +140,14 @@ export function SelectWishlistModal() {
     }
     close()
   }
+
+  // 모달이 열릴 때 폼을 초기화
+  useEffect(() => {
+    if (isOpen) {
+      setStep("select")
+      form.reset()
+    }
+  }, [isOpen, form])
 
   return (
     <ResponsiveModal
