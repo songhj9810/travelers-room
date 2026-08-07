@@ -27,7 +27,7 @@ export function DesktopNav() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { data: profile } = useProfile()
+  const { data: profile, isLoading } = useProfile()
 
   const { mutate: logout, isPending } = useLogout()
 
@@ -62,7 +62,9 @@ export function DesktopNav() {
         위시리스트
       </Link>
 
-      {profile ? (
+      {isLoading ? (
+        <div className="size-9" />
+      ) : profile ? (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
