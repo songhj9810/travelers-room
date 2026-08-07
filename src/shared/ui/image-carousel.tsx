@@ -56,7 +56,7 @@ export function ImageCarousel({
                           ? "(max-width: 768px) 100vw, (max-width: 1024px) 576px, (max-width: 1280px) 672px, 768px"
                           : "100vw"
                       }
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
                 </CarouselItem>
