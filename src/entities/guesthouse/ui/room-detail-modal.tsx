@@ -47,7 +47,7 @@ export function RoomDetailModal({
       footer={<div />}
     >
       <div className="flex flex-col gap-6">
-        <ImageCarousel name={name} images={images} />
+        <ImageCarousel name={name} images={images} variant="modal" />
 
         <div>
           <h3 className="mb-0.5 text-lg font-semibold md:text-xl">{name}</h3>

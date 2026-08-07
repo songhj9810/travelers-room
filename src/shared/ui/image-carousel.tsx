@@ -14,9 +14,14 @@ import {
 type ImageCarouselProps = {
   name: string
   images: string[]
+  variant?: "page" | "modal"
 }
 
-export function ImageCarousel({ name, images }: ImageCarouselProps) {
+export function ImageCarousel({
+  name,
+  images,
+  variant = "page",
+}: ImageCarouselProps) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
@@ -50,7 +55,11 @@ export function ImageCarousel({ name, images }: ImageCarouselProps) {
                       src={image}
                       alt={`${name}의 이미지 ${index + 1}`}
                       fill
-                      sizes="100vw"
+                      sizes={
+                        variant === "modal"
+                          ? "(max-width: 768px) 100vw, (max-width: 1024px) 576px, (max-width: 1280px) 672px, 768px"
+                          : "100vw"
+                      }
                       className="object-cover"
                     />
                   </div>
