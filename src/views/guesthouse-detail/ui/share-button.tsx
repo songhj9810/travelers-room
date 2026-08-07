@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useState } from "react"
 import { CopyLinkIcon, Share01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 
@@ -16,6 +17,8 @@ import {
 import { topToast } from "@/shared/ui/toast"
 
 export function ShareButton() {
+  const [open, setOpen] = useState(false)
+
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href)
@@ -29,17 +32,23 @@ export function ShareButton() {
         description: "잠시 후 다시 시도해주세요",
         priority: "high",
       })
+    } finally {
+      setOpen(false)
     }
   }
 
   const handleKakaoShare = () => {
-    window.Kakao.Share.sendScrap({
-      requestUrl: window.location.href,
-    })
+    try {
+      window.Kakao.Share.sendScrap({
+        requestUrl: window.location.href,
+      })
+    } finally {
+      setOpen(false)
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button
