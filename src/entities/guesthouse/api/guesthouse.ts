@@ -1,4 +1,4 @@
-import { createClient } from "@/shared/api/supabase/server"
+import { createClient } from "@/shared/api/supabase/public"
 import type { Tables } from "@/shared/api/supabase/types"
 
 import type { Guesthouse } from "../model/types"
@@ -9,7 +9,7 @@ export async function fetchGuesthouses({
 }: {
   sort: "wishlisted_count" | "avg_rating" | "created_at"
 }): Promise<Guesthouse[]> {
-  const supabase = await createClient()
+  const supabase = createClient()
   const { data, error } = await supabase
     .from("vw_guesthouses")
     .select("*")
@@ -26,7 +26,7 @@ export async function fetchGuesthouse({
 }: {
   guesthouseId: string
 }): Promise<Tables<"guesthouses">> {
-  const supabase = await createClient()
+  const supabase = createClient()
   const { data, error } = await supabase
     .from("guesthouses")
     .select("*")
@@ -43,7 +43,7 @@ export async function fetchRooms({
 }: {
   guesthouseId: string
 }): Promise<Tables<"rooms">[]> {
-  const supabase = await createClient()
+  const supabase = createClient()
   const { data, error } = await supabase
     .from("rooms")
     .select("*")

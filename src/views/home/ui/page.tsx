@@ -1,4 +1,4 @@
-import { fetchGuesthouses } from "@/entities/guesthouse/server"
+import { fetchGuesthouses } from "@/entities/guesthouse"
 
 import { SITE_URL } from "@/shared/config/site"
 

@@ -1,1 +1,5 @@
-export { default, generateMetadata } from "@/views/guesthouse-detail"
+export {
+  default,
+  generateMetadata,
+  generateStaticParams,
+} from "@/views/guesthouse-detail"

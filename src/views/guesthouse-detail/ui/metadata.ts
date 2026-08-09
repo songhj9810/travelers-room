@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-import { fetchGuesthouse } from "@/entities/guesthouse/server"
+import { fetchGuesthouse } from "@/entities/guesthouse"
 
 export async function generateMetadata({
   params,

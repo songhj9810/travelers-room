@@ -11,12 +11,12 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 import { formatTime } from "@/entities/guesthouse"
-import { fetchGuesthouse, fetchRooms } from "@/entities/guesthouse/server"
+import { fetchGuesthouse, fetchRooms } from "@/entities/guesthouse"
 import { fetchReviewsByGuesthouse } from "@/entities/review"
 
 import { getQueryClient } from "@/shared/api/get-query-client"
 import { queryKeys } from "@/shared/api/query-keys"
-import { createClient } from "@/shared/api/supabase/server"
+import { createClient } from "@/shared/api/supabase/public"
 import { ImageCarousel } from "@/shared/ui/image-carousel"
 import { NaverMap } from "@/shared/ui/naver-map"
 import { Separator } from "@/shared/ui/separator"
@@ -68,7 +68,7 @@ export default async function Page({
 
   // prefetch
   const queryClient = getQueryClient()
-  const supabase = await createClient()
+  const supabase = createClient()
   // eslint-disable-next-line @tanstack/query/exhaustive-deps
   await queryClient.prefetchQuery({
     queryKey: queryKeys.reviews.byGuesthousePage(guesthouseId, 0),
