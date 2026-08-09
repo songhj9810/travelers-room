@@ -49,6 +49,7 @@ export function GuesthouseCarousel({ items }: GuesthouseCarouselProps) {
                     wishlisted={wishlistedIds.has(item.id)}
                   />
                 }
+                variant="carousel"
               />
             </CarouselItem>
           ))}

@@ -20,6 +20,7 @@ export type GuesthouseCardProps = Pick<
   | "min_price"
 > & {
   action?: React.ReactNode
+  variant?: "grid" | "carousel"
 } & React.ComponentPropsWithRef<"div">
 
 export function GuesthouseCard({
@@ -31,6 +32,7 @@ export function GuesthouseCard({
   review_count,
   min_price,
   action,
+  variant = "grid",
   ...props
 }: GuesthouseCardProps) {
   return (
@@ -43,7 +45,11 @@ export function GuesthouseCard({
               src={images[0] || "/placeholder.jpg"}
               alt={`${name}의 대표 이미지`}
               fill
-              sizes="(max-width: 40rem) 100vw, (max-width: 48rem) 50vw, (max-width: 64rem) 50vw, 25vw"
+              sizes={
+                variant === "carousel"
+                  ? "(max-width: 48rem) 18rem, (max-width: 64rem) 33vw, 25vw"
+                  : "(max-width: 40rem) 100vw, (max-width: 48rem) 50vw, (max-width: 64rem) 50vw, 25vw"
+              }
               className="object-cover"
             />
           </div>
