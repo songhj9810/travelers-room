@@ -51,6 +51,8 @@ export function ImageCarousel({
                       src={image}
                       alt={`${name}의 이미지 ${index + 1}`}
                       fill
+                      loading={index === 0 ? "eager" : undefined}
+                      fetchPriority={index === 0 ? "high" : undefined}
                       sizes={
                         variant === "modal"
                           ? "(max-width: 48rem) 100vw, (max-width: 64rem) 36rem, (max-width: 80rem) 42rem, 48rem"
