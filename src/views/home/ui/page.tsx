@@ -46,7 +46,7 @@ export default async function Page() {
         >
           인기
         </h2>
-        <GuesthouseCarousel items={popularGuesthouses} />
+        <GuesthouseCarousel items={popularGuesthouses} lcp />
       </section>
 
       <section aria-labelledby="recommended-heading">

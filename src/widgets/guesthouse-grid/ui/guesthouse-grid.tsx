@@ -83,6 +83,7 @@ export function GuesthouseGrid({
                 wishlisted={wishlistedIds.has(item.id)}
               />
             }
+            lcp={index === 0}
           />
         )
       })}

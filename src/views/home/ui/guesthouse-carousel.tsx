@@ -19,9 +19,10 @@ import {
 
 type GuesthouseCarouselProps = {
   items: GuesthouseCardProps[]
+  lcp?: boolean
 }
 
-export function GuesthouseCarousel({ items }: GuesthouseCarouselProps) {
+export function GuesthouseCarousel({ items, lcp }: GuesthouseCarouselProps) {
   const { data: wishlistedIds = new Set<string>() } =
     useWishlistedGuesthouseIds()
 
@@ -30,7 +31,7 @@ export function GuesthouseCarousel({ items }: GuesthouseCarouselProps) {
     <div className="-mx-6 md:mx-0">
       <Carousel opts={{ align: "start" }} className="@container">
         <CarouselContent className="px-6 md:px-0">
-          {items.map((item) => (
+          {items.map((item, index) => (
             <CarouselItem
               key={item.id}
               className="basis-2xs md:basis-1/3 lg:basis-1/4"
@@ -50,6 +51,7 @@ export function GuesthouseCarousel({ items }: GuesthouseCarouselProps) {
                   />
                 }
                 variant="carousel"
+                lcp={lcp && index === 0}
               />
             </CarouselItem>
           ))}
