@@ -41,6 +41,31 @@ export default async function Page({
     fetchRooms({ guesthouseId }),
   ])
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: guesthouse.name,
+    description: guesthouse.description,
+    image: guesthouse.images.length > 0 ? guesthouse.images[0] : undefined,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: guesthouse.address,
+      addressCountry: "KR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: guesthouse.latitude,
+      longitude: guesthouse.longitude,
+    },
+    telephone: guesthouse.contact || undefined,
+    checkinTime: guesthouse.check_in,
+    checkoutTime: guesthouse.check_out,
+    priceRange:
+      rooms.length > 0
+        ? `${Math.min(...rooms.map((room) => room.base_price))}원~`
+        : undefined,
+  }
+
   // prefetch
   const queryClient = getQueryClient()
   const supabase = await createClient()
@@ -60,6 +85,13 @@ export default async function Page({
 
   return (
     <div className="flex w-full flex-col gap-8 pb-6 md:pb-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <ImageCarousel name={guesthouse.name} images={guesthouse.images} />
 
       <IntroSection guesthouse={guesthouse} />

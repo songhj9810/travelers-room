@@ -1,1 +1,1 @@
-export { default } from "@/views/forgot-password"
+export { default, metadata } from "@/views/forgot-password"

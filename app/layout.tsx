@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 
@@ -13,6 +14,7 @@ import { EditorModal } from "@/features/review"
 import { SearchModal } from "@/features/search"
 import { SelectWishlistModal } from "@/features/wishlist"
 
+import { SITE_URL } from "@/shared/config/site"
 import { cn } from "@/shared/lib/utils"
 import { ConfirmModal } from "@/shared/ui/confirm-modal"
 import { LoginModal } from "@/shared/ui/login-modal"
@@ -28,7 +30,28 @@ const pretendard = localFont({
 })
 const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
-export default function RootLayout({
+const title = "여행자의 방"
+const description =
+  "조건에 맞는 숙소를 찾아 위시리스트에 담고 리뷰를 남길 수 있는 제주 여행자를 위한 게스트하우스 탐색 플랫폼"
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: title,
+    template: `%s | ${title}`,
+  },
+  description,
+  openGraph: {
+    type: "website",
+    title,
+    description,
+    siteName: title,
+    locale: "ko_KR",
+    url: SITE_URL,
+  },
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (

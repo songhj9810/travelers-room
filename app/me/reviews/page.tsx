@@ -1,1 +1,1 @@
-export { default } from "@/views/my-reviews"
+export { default, metadata } from "@/views/my-reviews"

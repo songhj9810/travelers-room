@@ -1,10 +1,24 @@
 import { fetchGuesthouses } from "@/entities/guesthouse/server"
 
+import { SITE_URL } from "@/shared/config/site"
+
 import { GuesthouseCarousel } from "./guesthouse-carousel"
 import { HomeSearchBar } from "./home-search-bar"
 
 // ISR 주기
 export const revalidate = 3600 // 1시간
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "여행자의 방",
+  url: SITE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE_URL}/search?keyword={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+}
 
 export default async function Page() {
   const [popularGuesthouses, recommendedGuesthouses, newGuesthouses] =
@@ -16,6 +30,13 @@ export default async function Page() {
 
   return (
     <div className="flex w-full flex-col gap-8 p-6 md:p-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <HomeSearchBar />
 
       <section aria-labelledby="popular-heading">

@@ -1,1 +1,1 @@
-export { default } from "@/views/wishlists"
+export { default, metadata } from "@/views/wishlists"
